@@ -59,5 +59,37 @@ Body
     - sudo scp -r dist/* /var/www/html
     - Enable port :80 of your instance
 - Backend
+    - allowed EC2 instance public IP on mongodb server
+    - npm install pm2 -g
+    - pm2 start npm --name "devtinder-backend" -- start
+    - pm2 start npm -- start
+    - pm2 logs
+    - pm2 list, pm2 flush <name>, pm2 stop <name>, pm2 delete <name>
+    - config nginx - /etc/nginx/sites-available/default
+    - restart ngnix - sudo systemctl restart nginx
+    - Modify the BASEURL in frontend project to "/api"
+
+
+    Frontend = http://16.171.175.98/
+    Backend = http://16.171.175.98:7777/
+
+    Domain name = devtinder.com => 16.171.175.98
+
+    Frontend = devtinder.com
+    Backend = devtinder.com/api
+
+# ngnix Config :
+
+  server_name 16.171.175.98;
+
+  location /api/ {
+    proxy_pass http://localhost:7777/;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_cache_bypass $http_upgrade;
+  }    
+
 
 
